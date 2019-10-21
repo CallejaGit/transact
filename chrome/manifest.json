@@ -2,7 +2,7 @@
     "name": "transact",
     "version": "1.0",
     "description": "Update WNAB with your transactions",
-    "permissions": ["activeTab", "declarativeContent", "storage"],
+    "permissions": ["declarativeContent", "storage"],
     "background": {
         "scripts": ["background.js"],
         "persistent": false
