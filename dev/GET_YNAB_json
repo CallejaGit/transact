@@ -41,8 +41,18 @@ echo
 curl -H "Authorization: Bearer $personal_token" \
 https://api.youneedabudget.com/v1/budgets/$budget_id | python \
 -m json.tool > buget.txt
-echo "Which account? Enter Account id?"
-read account_id
+if test -f "mem/aid"; then
+    budget_id = `cat mem/aid`
+else
+    echo "Which account? Enter Account id?"
+    read account_id
+    echo "main account?(y/n)"
+    read input2
+    if [ "$input2" == "y" ]; then
+        echo "saving account_id..."
+        echo $account_id > mem/aid
+    fi
+fi
 echo 
 echo
 curl -H "Authorization: Bearer $personal_token" \
