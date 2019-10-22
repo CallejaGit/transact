@@ -1,0 +1,29 @@
+#!/bin/bash
+Personal_token=a7210a4dd1e40b3c52e1e11b8f877c6bb9afe0520a7f42c82f174b0b7d475bba
+
+echo
+echo generating/updating budget_json.txt from your Personal Token...
+echo
+echo
+curl -H "Authorization: Bearer $Personal_token" \
+https://api.youneedabudget.com/v1/budgets | python \
+-m json.tool > budgets_json.txt
+echo
+echo "Opening budgets_json.txt on Visual Code"
+code budgets_json.txt
+# If there is one way to parse it and output it in bash
+echo
+echo "Which budget? Enter budget id"
+read budget_id
+echo "Generating transaction json"
+echo
+echo
+curl -H "Authorization: Bearer $Personal_token" \
+https://api.youneedabudget.com/v1/budgets/$budget_id | python \
+-m json.tool > transaction.txt
+
+
+
+
+
+

@@ -1,0 +1,53 @@
+#!/bin/bash
+
+if test -f "mem/pt"; then
+    personal_token=`cat mem/pt`
+else
+    echo Enter Personal Token
+    read personal_token
+    echo $personal_token > mem/pt
+fi
+
+echo
+echo generating/updating budget_json.txt from your Personal Token...
+echo
+echo
+curl -H "Authorization: Bearer $personal_token" \
+https://api.youneedabudget.com/v1/budgets | python \
+-m json.tool > budgets_json.txt
+echo
+echo "Opening budgets_json.txt on Visual Code"
+code budgets_json.txt
+# If there is one way to parse it and output it in bash
+echo
+
+if test -f "mem/bid"; then
+    budget_id=`cat mem/bid`
+else
+    echo "Which budget? Enter budget id"
+    read budget_id
+    echo "Is this your main budget?(y/n)"
+    read input
+    if [ "$input" == "y" ]; then
+        echo "saving budget_id..."
+        echo $budget_id > mem/bid
+    fi
+fi
+echo "Generating transaction json"
+echo
+echo
+curl -H "Authorization: Bearer $Personal_token" \
+https://api.youneedabudget.com/v1/budgets/$budget_id | python \
+-m json.tool > transaction.txt
+echo "Add Transaction?(y/n)"
+read input2
+if [ "$input"=="y" ]; then
+    echo yes
+fi
+bash transaction
+
+
+
+
+
+
