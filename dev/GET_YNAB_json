@@ -1,5 +1,9 @@
 #!/bin/bash
-
+# Wrote a quick bash script to generate specific json files
+if ! [ -d "mem" ]; then 
+    echo creating mem directory
+    mkdir mem
+fi
 if test -f "mem/pt"; then
     personal_token=`cat mem/pt`
 else
@@ -7,7 +11,6 @@ else
     read personal_token
     echo $personal_token > mem/pt
 fi
-
 echo
 echo generating/updating budget_json.txt from your Personal Token...
 echo
@@ -18,9 +21,8 @@ https://api.youneedabudget.com/v1/budgets | python \
 echo
 echo "Opening budgets_json.txt on Visual Code"
 code budgets_json.txt
-# If there is one way to parse it and output it in bash
+# If there is one way to parse it and output it in bash...
 echo
-
 if test -f "mem/bid"; then
     budget_id=`cat mem/bid`
 else
@@ -36,15 +38,17 @@ fi
 echo "Generating transaction json"
 echo
 echo
-curl -H "Authorization: Bearer $Personal_token" \
+curl -H "Authorization: Bearer $personal_token" \
+https://api.youneedabudget.com/v1/budgets/$budget_id | python \
+-m json.tool > buget.txt
+echo "Which account? Enter Account id?"
+read account_id
+echo 
+echo
+curl -H "Authorization: Bearer $personal_token" \
 https://api.youneedabudget.com/v1/budgets/$budget_id | python \
 -m json.tool > transaction.txt
-echo "Add Transaction?(y/n)"
-read input2
-if [ "$input"=="y" ]; then
-    echo yes
-fi
-bash transaction
+echo
 
 
 
