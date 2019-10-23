@@ -23,6 +23,7 @@ echo "Opening budgets_json.txt on Visual Code"
 code budgets_json.txt
 # If there is one way to parse it and output it in bash...
 echo
+budget_id=0
 if test -f "mem/bid"; then
     budget_id=`cat mem/bid`
 else
