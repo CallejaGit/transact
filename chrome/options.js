@@ -8,7 +8,7 @@ function setSubmitTextField(pt_value) {
 }
 
 chrome.storage.local.get(['pt'], (result) => {
-  if (chrome.runtime.lastError) {
+  if (chrome.runtime.lastError || typeof result.pt == 'undefined') {
     return;
   }
   setSubmitTextField(result.pt);
@@ -25,6 +25,14 @@ submit.onclick = () => {
 
 
 // Getting data
+let x = document.getElementById("select");
+
+var promise = new Promise(function(resolve, reject){
+  setTimeout(function(){
+    
+  }, 300);
+});
+
 var xhr = new XMLHttpRequest();
 xhr.withCredentials = true;
 
@@ -38,8 +46,9 @@ xhr.setRequestHeader("Authorization", "Bearer a7210a4dd1e40b3c52e1e11b8f877c6bb9
 xhr.send(null);
 
 function parseJson(data) {
-  var budgets = JSON.parse(data)["data"]["budgets"];
-  
-};
-
-
+  var data = JSON.parse(data)["data"]["budgets"];
+  for (var i=0; ;i++) {
+    if (typeof data[i] == 'undefined') { break; }
+    var option = document.createElement("option");
+  }
+}
