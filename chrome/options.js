@@ -7,12 +7,6 @@ function setSubmitTextField(pt_value) {
   pt_input.value = pt_value;
 }
 
-chrome.storage.local.get(['pt'], (result) => {
-  if (chrome.runtime.lastError || typeof result.pt == 'undefined') {
-    return;
-  }
-  setSubmitTextField(result.pt);
-});
 
 submit.onclick = () => {
   pt_value = pt_input.value;
@@ -22,33 +16,43 @@ submit.onclick = () => {
   });
 }
 
-
-
 // Getting data
-let x = document.getElementById("select");
+let selectForm = document.getElementById("select");
 
-var promise = new Promise(function(resolve, reject){
+var getStoredPT = new Promise(function(resolve, reject){
   setTimeout(function(){
-    
+    chrome.storage.local.get(['pt'], (result) => {
+      if (chrome.runtime.lastError || typeof result.pt == 'undefined') {
+        return;
+      }
+      setSubmitTextField(result.pt);
+      resolve(result.pt)
+    });
   }, 300);
 });
 
-var xhr = new XMLHttpRequest();
-xhr.withCredentials = true;
+getStoredPT.then((data) => {
 
-xhr.addEventListener("readystatechange", function () {
-  if (this.readyState === 4) {
-    parseJson(this.responseText);
-  }
+  var xhr = new XMLHttpRequest();
+  xhr.withCredentials = true;
+
+  xhr.addEventListener("readystatechange", function () {
+    if (this.readyState === 4) {
+      parseJson(this.responseText);
+    }
+  });
+  console.log(data);
+  xhr.open("GET", "https://api.youneedabudget.com/v1/budgets");
+  xhr.setRequestHeader("Authorization", "Bearer " + data);
+  xhr.send(null);
 });
-xhr.open("GET", "https://api.youneedabudget.com/v1/budgets");
-xhr.setRequestHeader("Authorization", "Bearer a7210a4dd1e40b3c52e1e11b8f877c6bb9afe0520a7f42c82f174b0b7d475bba");
-xhr.send(null);
 
 function parseJson(data) {
   var data = JSON.parse(data)["data"]["budgets"];
   for (var i=0; ;i++) {
     if (typeof data[i] == 'undefined') { break; }
     var option = document.createElement("option");
+    option.text = data[i]["name"];
+    selectForm.add(option);
   }
 }
