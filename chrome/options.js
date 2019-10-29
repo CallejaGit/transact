@@ -3,12 +3,17 @@ let pt;
 let pt_input = document.getElementById('pt');
 let submit = document.getElementById('submit');
 let selectBudget = document.getElementById("selectBudget");
-let selectAccount = document.getElementById("select");
+let clearBtn = document.getElementById("clearBtn");
 
 /**
  * Event Listeners
  */
 
+clearBtn.onclick = () => {
+  setSubmitTextField(" ");
+  chrome.storage.local.clear();
+  submit.disabled = false;
+}
 
 selectBudget.onchange = () => {
   getStoredPT.then((data) => {
