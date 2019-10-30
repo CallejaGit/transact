@@ -10,27 +10,25 @@ let clearBtn = document.getElementById("clearBtn");
  */
 
 clearBtn.onclick = () => {
-  setSubmitTextField(" ");
   chrome.storage.local.clear();
-  submit.disabled = false;
+  PTfield(false);
 }
 
 selectBudget.onchange = () => {
+  var selected = selectBudget.options[selectBudget.selectedIndex].value;
+
   getStoredPT.then((data) => {
-    
+
     var selectBudget = document.getElementById("select");
-    var selected = selectBudget.options[selectBudget.selectedIndex].value
-    
     var xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;selectForm
+    xhr.withCredentials = true;
 
     xhr.addEventListener("readystatechange", function () {
       if (this.readyState === 4) {
-        getBid(this.responseText, selected).then((bid) => {
-          /**
-           * TODO: bid should be used to parse 
-           */
-          parseJsonAccounts(bid);
+        getBid(this.responseText, selected).then((value) => {
+          chrome.storage.local.set({bid: value}, () => {
+            console.log("set bid in storage to be: " + value);
+          })
         });
       }
     });
@@ -48,12 +46,24 @@ submit.onclick = () => {
   chrome.storage.local.set({pt: pt_value}, () => {
     console.log('Value is set to ' + pt_value);
   });
+  run();
 }
 
 
 /**
  * functions 
  */
+validPT = (potential) => {
+  return typeof JSON.parse(potential)["data"] !== 'undefined';
+}
+
+PTfield = (value) => {
+  console.log(value);
+  submit.disable = value;
+  pt_input.readOnly = value;
+  if (!value) setSubmitTextField("");
+}
+
 var getBid = function(dat, b) {
   return new Promise((resolve, reject) => {
     var data = JSON.parse(dat)["data"]["budgets"];
@@ -62,18 +72,9 @@ var getBid = function(dat, b) {
     for (var i=0; ;i++) {
      
       if (typeof data[i] == 'undefined') { break; }
-      console.log("is it...\n" + data[i]["name"]);
-      console.log("if so then the bid is\n" + data[i]["id"]);
 
-       /*
-       * TODO: Error
-       * 
-       * Adding budget name to select form alters the string.
-       * When grabbing the same budget name from the api is 
-       * different then the string value in b passed in this
-       * callback. 
-       */
-      
+      console.log("is it...\n" + data[i]["name"]);
+      console.log("if so then the bid is\n" + data[i]["id"]); 
 
       if (data[i]["name"] == b) {
         console.log("FOUND IT");
@@ -109,18 +110,6 @@ parseJsonBudgets = (data) => {
   }
 }
 
-parseJsonAccounts = (data) => {
-  var data = JSON.parse(data)["data"]["budgets"];
-  for (var i=0; ;i++) {
-    if (typeof data[i] == 'undefined') { break; }
-    var option = document.createElement("option");
-    option.text = data[i]["name"];
-    console.log("Setting options: " + data[i]["name"]);
-
-    selectBudget.add(option);
-  }
-}
-
 var getStoredPT = new Promise(function(resolve, reject){
   setTimeout(function(){
     chrome.storage.local.get(['pt'], (result) => {
@@ -140,21 +129,33 @@ setSubmitTextField = (pt) => {
 /**
  * Main
  */
-getStoredPT.then((data) => {
 
-  var xhr = new XMLHttpRequest();
-  xhr.withCredentials = true;
+run = () => {
+  console.log("run");
 
-  xhr.addEventListener("readystatechange", function () {
-    if (this.readyState === 4) {
-      parseJsonBudgets(this.responseText);
-    }
+  getStoredPT.then((data) => {
+
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+
+    xhr.addEventListener("readystatechange", function () {
+      if (this.readyState === 4) {
+        if (validPT(this.responseText)) {
+          PTfield(true);
+          parseJsonBudgets(this.responseText);
+        } else {
+          console.log('invalid');
+        }
+      }
+    });
+    console.log(data);
+    xhr.open("GET", "https://api.youneedabudget.com/v1/budgets");
+    xhr.setRequestHeader("Authorization", "Bearer " + data);
+    xhr.send(null);
   });
-  console.log(data);
-  xhr.open("GET", "https://api.youneedabudget.com/v1/budgets");
-  xhr.setRequestHeader("Authorization", "Bearer " + data);
-  xhr.send(null);
-});
+}
+
+run();
 
 
 
