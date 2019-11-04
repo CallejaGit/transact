@@ -13,8 +13,7 @@
     "content_scripts": [
       {
         "matches": [
-          "*://*.getbootstrap.com/*",
-          "*://*.google.com/*"
+          "*://*.td.com/*"
           ],
         "js": ["content.js"],
         "run_at": "document_end"
