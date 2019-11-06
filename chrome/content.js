@@ -1,12 +1,9 @@
 // Checking page title
 
-console.log("TEST");
 
-if (document.title.indexOf("EasyWeb") != -1) {
-
-  var x = document.getElementsByTagName("trable")[3];
-}
-
+setTimeout(function(){
+  main();
+}, 2000);
 /**
  * TODO: ----Overview Objectives----
  * Replace Dates with input as the current date
@@ -16,3 +13,8 @@ if (document.title.indexOf("EasyWeb") != -1) {
  * Once Button is set it will 
  * */
 
+function main() {
+  var transactionsList = document.getElementById('transactionsTable').getElementsByTagName('tr');
+
+  
+}
