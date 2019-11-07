@@ -13,7 +13,8 @@
     "content_scripts": [
       {
         "matches": [
-          "*://*.td.com/*"
+          "*://*.td.com/*",
+          "file:///home/byzatineballer/Desktop/EasyWeb.html"
           ],
         "js": ["content.js"],
         "run_at": "document_end"

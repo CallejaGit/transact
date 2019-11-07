@@ -1,6 +1,15 @@
 // Checking page title
 
-
+/** 
+ * I had troubles getting the transactions table from TD.
+ * The document only contains a subset of the what is
+ * displayed. I.e. console.log(document.getBody) inside of 
+ * content scripts != the document.getBody execute from the
+ * chrome console. 
+ *
+ * My hackish way is to delay the script and obtain the 
+ * document
+ */
 setTimeout(function(){
   main();
 }, 2000);
@@ -13,8 +22,20 @@ setTimeout(function(){
  * Once Button is set it will 
  * */
 
-function main() {
-  var transactionsList = document.getElementById('transactionsTable').getElementsByTagName('tr');
-
+function tread(transactionsTable) {
   
+  var date = transactionsTable.getElementsByTagName('td')[0].textContent;
+  console.log(date);
+
+}
+
+function main() {
+  var transactionsTable  = document.getElementById('transactionsTable').getElementsByTagName('tr');
+
+  // 3rd element begins the row
+  for (var i = 3, len = transactionsTable.length; i < len; i++) {
+    if (i==3) {
+      tread(transactionsTable[i]);
+    }
+  }
 }
