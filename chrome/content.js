@@ -12,7 +12,7 @@
  */
 setTimeout(function(){
   main();
-}, 2000);
+}, 1000);
 
 function treadRowData(transactionsTable) {
 
@@ -87,16 +87,41 @@ function insertTable() {
       <th scope='col'>MEMO</th>\
       <th scope='col'>OUTFLOW</th>\
       <th scope='col'>INFLOW</th>\
+      <th scope='col'>CONFIRM</th>\
     </tr>\
   </thead>\
   <tbody>\
   </tbody>\
 </table>\
-    ");
-    
+    "); 
+
+  return $("#ynabTable");
 }
 
+function fillTable(ynabTable, transactions) {
 
+  console.log(transactions);
+  var ynabBody = ynabTable.find('tbody');
+  
+
+  transactions.forEach((arrItem) => {
+    ynabBody.append(`
+    <tr>
+      <td>${arrItem.date}</th>
+      <td>${arrItem.payee_name}</td>
+      <td>empty</td>
+      <td>
+        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+      </td>
+      <td>${arrItem.credit}</td>
+      <td>${arrItem.debit}</td>
+      <td>
+      <button class="btn btn-primary" type="submit">Approve</button>
+      </td>
+    </tr>
+    `);
+  });
+}
 function main() {
   var transactionsTable  = document.getElementById('transactionsTable').getElementsByTagName('tr');
 
@@ -105,9 +130,10 @@ function main() {
   for (var i = 3, len = transactionsTable.length - 1; i < len; i++) {
     transactions.push(treadRowData(transactionsTable[i]));
   }
-  
+
   initBootstrap();
-  insertTable();
+  var ynabTable = insertTable();
+  fillTable(ynabTable, transactions);
 }
 
 
