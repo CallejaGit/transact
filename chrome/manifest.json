@@ -16,7 +16,7 @@
           "*://*.td.com/*",
           "file:///home/byzatineballer/Desktop/EasyWeb.html"
           ],
-        "js": ["content.js"],
+        "js": ["modules/jquery-3.4.1.min.js", "content.js"],
         "run_at": "document_end"
       } 
     ],
