@@ -1,0 +1,9 @@
+TODO:
+
++ Gather Categories from API
++ Gather Payee_name from API
++ event listener for checkbox. Must add the row to the list
++ event listener for Approve button
++ remove Approve All button
++ use browser action
++ modularize  

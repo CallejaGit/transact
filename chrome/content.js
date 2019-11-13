@@ -12,7 +12,8 @@
  */
 setTimeout(function(){
   main();
-}, 2000);
+}, 5000);
+
 
 function treadRowData(id, transactionsTable) {
 
@@ -158,6 +159,8 @@ function main() {
   var transactions = [];
   // 3rd element begins the row and last element is total
   var isPosted = false;
+  
+  console.log(transactionsTable.length);
   for (var i = 2, len = transactionsTable.length - 1; i < len; i++) {
     
     if (isPosted) {
