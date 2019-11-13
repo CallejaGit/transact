@@ -16,9 +16,7 @@ setTimeout(function(){
 
 function treadRowData(id, transactionsTable) {
 
-
   var tableElem = transactionsTable.getElementsByTagName('td');
-
 
   var data = { 
     date: tableElem[0].textContent.split(/\r?\n/)[5].trim(),
@@ -79,28 +77,42 @@ function insertTable() {
   return $("#ynabTable");
 }
 
+function formatDate(date) {
+
+  console.log(date.split(' '));
+
+  var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+  var components = date.split(' ');
+
+  var month = parseInt(months.indexOf(components[0])) + 1;
+  var day = components[1].slice(0, components[1].length - 1);
+  var year = components[2];
+
+  return year + "-" + month + "-" + day;
+  
+}
+
 function fillTable(ynabTable, transactions) {
 
   var ynabBody = ynabTable.find('tbody').first();
  
-
-  /**
-   * TODO: Bug when setting payee_name to the placeholder
-   *
-   * It takes the first word of the string as the value.
-   */
   transactions.forEach((arrItem) => {
+    var date = formatDate(arrItem.date);
     ynabBody.append(`
     <tr id=${'ynabTrans' + arrItem.id}>
-      <td style="padding:10px"; style="margin:0px" id="date"></td>
+      <td style="padding:10px"; style="margin:0px">
+        <div class="ui input">
+          <input style="width:100px"; type="text" value="${date}" placeholder="date" id="category">
+        </div>
+      </td>
       <td>
         <div class="ui input">
-          <input type="text" placeholder="" value=${arrItem.payee_name} id="payee_name">
+          <input type="text" placeholder="" value="${arrItem.payee_name}" id="payee_name">
         </div>
       </td>
       <td style="padding:10px"; style="margin:0px">
         <div class="ui input">
-          <input type="text" placeholder="" id="category">
+          <input type="text" placeholder="category" id="category">
         </div>
       </td>
       <td style="padding:10px"; style="margin:0px">
@@ -127,9 +139,6 @@ function fillTable(ynabTable, transactions) {
       </td>
     </tr>
     `);
-  
-    console.log(arrItem.debit !== "");
-    console.log(arrItem.debit)
     
     if (arrItem.credit !== "") {
       var i = '#ynabTrans' + arrItem.id;
