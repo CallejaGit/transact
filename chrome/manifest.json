@@ -8,7 +8,7 @@
         "persistent": false
     },
     "browser_action": {
-        "default_popup": "popup.html"
+        "default_popup": "popup/popup.html"
     },
     "content_scripts": [
       {
@@ -16,7 +16,7 @@
           "*://*.td.com/*",
           "file:///home/byzatineballer/Desktop/EasyWeb.html"
           ],
-        "js": ["modules/jquery-3.4.1.min.js", "content.js"],
+        "js": ["modules/inject.js", "modules/convert.js", "modules/jquery-3.4.1.min.js", "content.js"],
         "run_at": "document_end"
       } 
     ],
@@ -26,7 +26,7 @@
         "48": "images/get_started48.png",
         "128": "images/get_started128.png"
       },
-    "options_page": "options.html",
+    "options_page": "options/options.html",
     "manifest_version": 2
 }
 
