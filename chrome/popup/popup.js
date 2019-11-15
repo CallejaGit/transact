@@ -1,15 +1,36 @@
-let changeColor = document.getElementById('changeColor');
+$(document).ready(() => {
 
-chrome.storage.sync.get('color', function(data) {
-  changeColor.style.backgroundColor = data.color;
-  changeColor.setAttribute('value', data.color);
+  let TDSwitch = $('#TDSwitch');
+  let SimpSwitch = $('#SimpSwitch');
+
+  // Check the switch state in chrome.storage
+  chrome.storage.local.get(['TD'], (result) => {
+
+    (result.TD) ? TDSwitch.prop('checked', true) : TDSwitch.prop('checked', false);
+  });
+  chrome.storage.local.get(['Simplii'], (result) => {
+
+    (result.Simplii) ? SimpSwitch.prop('checked', true) : SimpSwitch.prop('checked', false);
+  });
+
+  // Event fires when switch changes and store state in chrome.storage
+  TDSwitch.change(() => {
+
+    var state  = document.getElementById('TDSwitch').checked;
+    chrome.storage.local.set({TD: state});
+    chrome.storage.local.get(['TD'], (result) => {
+      console.log(result.TD);
+    });
+  });
+    
+  SimpSwitch.change(() => {
+
+    var state  = document.getElementById('SimpSwitch').checked;
+    console.log(state);
+    chrome.storage.local.set({Simplii: state});
+    chrome.storage.local.get(['Simplii'], (result) => {
+      console.log(result.Simplii);
+    });
+  });
 });
 
-changeColor.onclick = function(element) {
-  let color = element.target.value;
-  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    chrome.tabs.executeScript(
-        tabs[0].id,
-        {code: 'document.body.style.backgroundColor = "' + color + '";'});
-  });
-};
