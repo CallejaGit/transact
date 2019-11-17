@@ -1,22 +1,18 @@
-// Checking page title
+// TODO: try to insert this table back with switch is off
+storeTable = (title, table) => {
+  if (title === 'EasyWeb') {
+    var transTable = $('#transactionsTable')
 
-/** 
- * I had troubles getting the transactions table from TD.
- * The document only contains a subset of the what is
- * displayed. I.e. console.log(document.getBody) inside of 
- * content scripts != the document.getBody execute from the
- * chrome console. 
- *
- * My hackish way is to delay the script and obtain the 
- * document
- */
-setTimeout(function(){
-  main();
-}, 5000);
+    chrome.storage.local.set({TDtable: transTable}, (result) => {
+    })
+  }
+}
 
 function main() {
+
   var transactionsTable  = document.getElementById('transactionsTable').getElementsByTagName('tr');
 
+  storeTable($(document).find('title').text(), transactionsTable);
   var transactions = [];
   // 3rd element begins the row and last element is total
   var isPosted = false;
@@ -38,3 +34,8 @@ function main() {
 }
 
 
+chrome.storage.local.get(['TD'], (result) => {
+  if (($(document).find("title").text() === 'EasyWeb') && (result.TD === true)) {
+    main();
+  }
+})

@@ -21,6 +21,8 @@ $(document).ready(() => {
     chrome.storage.local.get(['TD'], (result) => {
       console.log(result.TD);
     });
+
+    executeScript();
   });
     
   SimpSwitch.change(() => {
@@ -34,3 +36,8 @@ $(document).ready(() => {
   });
 });
 
+executeScript = () => { 
+  chrome.tabs.executeScript({
+    file: 'content.js'
+  })
+}
