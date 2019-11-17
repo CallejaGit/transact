@@ -84,6 +84,18 @@ function insertTable() {
     <table id="ynabTable" class="ui blue table">
       <thread>
         <tr>
+          <th colspan="6">
+            <div class="ui compact menu">
+              <div class="ui simple dropdown item">
+                Please select your budget
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                </div>
+              </div>
+            </div>
+          </th>
+        </tr>
+        <tr>
           <th>DATE</th>
           <th>PAYEE</th>
           <th>CATEGORY</th>
