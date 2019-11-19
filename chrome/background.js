@@ -10,4 +10,18 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 });
 
-
+chrome.extension.onConnect.addListener(function(port){
+  console.log("Connected ....");
+  port.onMessage.addListener(function(msg) {
+    console.log("msg recieved " + msg.token)
+    if(msg.subject == "validate PAT"){
+      validatePAT(msg.token).then((response) => {
+        console.log(response)
+        port.postMessage({
+          subject: "validate PAT",
+          validation: response
+        });
+      })
+    }
+  })
+})

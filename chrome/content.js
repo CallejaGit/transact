@@ -1,3 +1,4 @@
+/**
 // TODO: try to insert this table back with switch is off
 storeTable = (title, table) => {
   if (title === 'EasyWeb') {
@@ -39,3 +40,10 @@ chrome.storage.local.get(['TD'], (result) => {
     main();
   }
 })
+*/
+
+PAT = 'a7210a4dd1e40b3c52e1e11b8f877c6bb9afe0520a7f42c82f174b0b7d475bba';
+
+chrome.runtime.sendMessage({subject: "Validate PAT", token: PAT}, function(response) {
+  console.log("this is the respones.........." + response);
+});

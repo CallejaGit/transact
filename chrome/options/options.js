@@ -1,3 +1,4 @@
+/**
 let pt;
 
 let pt_input = document.getElementById('pt');
@@ -5,9 +6,6 @@ let submit = document.getElementById('submit');
 let selectBudget = document.getElementById("selectBudget");
 let clearBtn = document.getElementById("clearBtn");
 
-/**
- * Event Listeners
- */
 
 clearBtn.onclick = () => {
   chrome.storage.local.clear();
@@ -50,9 +48,6 @@ submit.onclick = () => {
 }
 
 
-/**
- * functions 
- */
 validPT = (potential) => {
   return typeof JSON.parse(potential)["data"] !== 'undefined';
 }
@@ -64,35 +59,7 @@ PTfield = (value) => {
   if (!value) setSubmitTextField("");
 }
 
-var getBid = function(dat, b) {
-  return new Promise((resolve, reject) => {
-    var data = JSON.parse(dat)["data"]["budgets"];
-    var bid;
-    console.log("\nlooking for\n" + b +"\n");
-    for (var i=0; ;i++) {
-     
-      if (typeof data[i] == 'undefined') { break; }
 
-      console.log("is it...\n" + data[i]["name"]);
-      console.log("if so then the bid is\n" + data[i]["id"]); 
-
-      if (data[i]["name"] == b) {
-        console.log("FOUND IT");
-        bid = data[i]["id"];      
-      }
-    }
-
-    if(typeof bid !== 'undefined') {
-      console.log("------------\nOkay it works you got bid\n" + bid);
-      resolve(bid);
-    } else { reject(Error("It broke"))};
-  }); 
-}
-
-
-/**
- * Parsing functions
- */
 parseJsonBudgets = (data) => {
   var data = JSON.parse(data)["data"]["budgets"];
   var select_option = document.createElement("option");
@@ -126,36 +93,100 @@ setSubmitTextField = (pt) => {
   pt_input.value = pt;
 }
 
-/**
- * Main
- */
+*/
 
-run = () => {
-  console.log("run");
 
-  getStoredPT.then((data) => {
+$('#setTokenBtn').click(() => {
+  value = $('#token').val(); 
 
-    var xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
-
-    xhr.addEventListener("readystatechange", function () {
-      if (this.readyState === 4) {
-        if (validPT(this.responseText)) {
-          PTfield(true);
-          parseJsonBudgets(this.responseText);
-        } else {
-          console.log('invalid');
-        }
-      }
-    });
+  validatePAT(value).then((data) => {
+    console.log("wow");
     console.log(data);
-    xhr.open("GET", "https://api.youneedabudget.com/v1/budgets");
-    xhr.setRequestHeader("Authorization", "Bearer " + data);
-    xhr.send(null);
+  });
+})
+
+var validatePAT = (PAT) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+
+      var xhr = new XMLHttpRequest();
+      xhr.withCredentials = true;
+
+      xhr.addEventListener("readystatechange", function() {
+        console.log(this.readyState);
+        if (this.readyState === 4) {
+          resolve(this.responseText);
+        }
+      });
+      xhr.open("GET", "https://api.youneedabudget.com/v1/user");
+      xhr.setRequestHeader("Authorization", "Bearer a7210a4dd1e40b3c52e1e11b8f877c6bb9afe0520a7f42c82f174b0b7d475bba");
+      xhr.send(null);
+    }, 3000);
+  });
+} 
+
+/**
+var getBudgets = (PAT) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+
+      var xhr = new XMLHttpRequest();
+      xhr.withCredentials = true;
+
+      xhr.addEventListener('readystatechange', () => {
+        console.log(this.readyState);
+        if (this.readyState === 4) {
+          console.log('here');
+          resolve(this.responseText);
+        }
+      });
+      xhr.open("GET", "https://api.youneedabudget.com/v1/budgets");
+      xhr.setRequestHeader("Authorization", "Bearer a7210a4dd1e40b3c52e1e11b8f877c6bb9afe0520a7f42c82f174b0b7d475bba");
+      xhr.send(null);
+    }, 300);
+  });
+} 
+
+var getCategories = function(PAT, budget_id) {
+  return new Promise((resolve, reject) => {
+    
+    setTimeout(function(){
+
+      var xhr = new XMLHttpRequest();
+      xhr.withCredentials = true;
+
+      xhr.addEventListener('readystatechange', () => {
+        if (this.readyState === 4) {
+          resolve(this.responseText);
+        }
+      });
+      uri = "https://api.youneedabudget.com/v1/budgets/" + budget_id + "/categories";
+      xhr.open("GET", uri);
+      xhr.setRequestHeader('Authorization', 'Bearer');
+      xhr.send(null);
+    }, 300);
   });
 }
 
-run();
+var getPayees = function(PAT, category_id) {
+  return new Promise((resolve, reject) => {
+    
+    setTimeout(function(){
 
+      var xhr = new XMLHttpRequest();
+      xhr.withCredentials = true;
 
+      xhr.addEventListener('readystatechange', () => {
+        if (this.readyState === 4) {
+          resolve(this.responseText);
+        }
+      });
+      uri = "https://api.youneedabudget.com/v1/budgets/" + category_id + "/payees";
+      xhr.open("GET", uri);
+      xhr.setRequestHeader('Authorization', 'Bearer');
+      xhr.send(null);
+    }, 300);
+  });
 
+}
+*/

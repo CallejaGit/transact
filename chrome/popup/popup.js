@@ -1,7 +1,25 @@
 $(document).ready(() => {
-
+  let tokenBtn = $('#tokenBtn')
+  let budgetBtn = $('#budgetBtn') 
   let TDSwitch = $('#TDSwitch');
   let SimpSwitch = $('#SimpSwitch');
+
+  // Using Long Lived Connections to commnicata from
+  // background.js to popup.js
+  var port = chrome.extension.connect({
+    name: "Sample Communication"
+  });
+
+  // Checks validity of token entered and stores budgets
+  tokenBtn.click(()=> {
+    port.postMessage({
+      subject: "validate PAT",
+      token: $("#tokenInput").val()
+    });
+    port.onMessage.addListener(function(msg) {
+      console.log(msg.validation);
+    });
+  });
 
   // Check the switch state in chrome.storage
   chrome.storage.local.get(['TD'], (result) => {
