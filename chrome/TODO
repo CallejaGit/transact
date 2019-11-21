@@ -1,9 +1,12 @@
 TODO:
 
-+ Gather Categories from API
-+ Gather Payee_name from API
-+ event listener for checkbox. Must add the row to the list
-+ event listener for Approve button
-+ remove Approve All button
-+ use browser action
-+ modularize  
++ convert table to boostrap 4
++ on backgroundjs: 
+  + gather and store categories and their ids
+  + check port for recieving json of transactions
++ on content.js
+  + populate categories selection
+  + gather all row info into a json
++ on endpoints.js:
+  + function to POST transactions
++ Clean up code
