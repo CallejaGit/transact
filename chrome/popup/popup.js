@@ -10,15 +10,72 @@ $(document).ready(() => {
     name: "Sample Communication"
   });
 
+  port.onMessage.addListener(function(msg) {
+
+    if (msg.subject === "validated PAT" && msg.validation != false) {
+      console.log("inhere")
+      chrome.storage.local.set({PAT: msg.token});
+      
+      // Once we get the validation we should update the budgets
+      port.postMessage({
+        subject: "get budgets",
+        token: msg.token 
+      });
+    }
+
+    if (msg.subject == "get selected Budget") {
+      console.log('TODO')
+    }
+
+    if (msg.subject == "got budgets") {
+      var data = JSON.parse(msg.json)["data"]["budgets"];
+     
+      var nameIDpairs = {}
+      for (var i = 0; ; i++) {
+        if (typeof data[i] == 'undefined') {break;}
+        
+        name = data[i]["name"];
+        id = data[i]["id"];
+        nameIDpairs[name] = id
+      }
+      
+      chrome.storage.local.set({budgets: nameIDpairs});
+    }
+
+  });
+
+  // Set the values obtained from the local storage
+  chrome.storage.local.get(['PAT'], (result) => {
+    if (chrome.runtime.lastError || typeof result.PAT == 'undefined') {
+      return;
+    }
+    $("#tokenInput").val(result.PAT);
+  })
+
+  chrome.storage.local.get(['budgets'], (result) => {
+    if (chrome.runtime.lastError || typeof result.budgets == 'undefined') {
+      return;
+    }
+
+    // Populate the options for selection tag
+    $.each(result.budgets, function(key, value){
+
+      console.log('setting')
+      $('#budgetsSelect').append( $('<option>', {value: value}).text(key));
+    })
+
+    // Need to set the values for categories
+  })
+
   // Checks validity of token entered and stores budgets
   tokenBtn.click(()=> {
+    tokenVal = $("#tokenInput").val()
+    
     port.postMessage({
       subject: "validate PAT",
-      token: $("#tokenInput").val()
+      token: tokenVal
     });
-    port.onMessage.addListener(function(msg) {
-      console.log(msg.validation);
-    });
+
   });
 
   // Check the switch state in chrome.storage
@@ -46,7 +103,6 @@ $(document).ready(() => {
   SimpSwitch.change(() => {
 
     var state  = document.getElementById('SimpSwitch').checked;
-    console.log(state);
     chrome.storage.local.set({Simplii: state});
     chrome.storage.local.get(['Simplii'], (result) => {
       console.log(result.Simplii);

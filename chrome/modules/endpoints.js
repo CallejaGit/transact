@@ -33,7 +33,7 @@ var getBudgets = (PAT) => {
       var xhr = new XMLHttpRequest();
       xhr.withCredentials = true;
 
-      xhr.addEventListener('readystatechange', () => {
+      xhr.addEventListener("readystatechange", function() {
         console.log(this.readyState);
         if (this.readyState === 4) {
           console.log('here');
@@ -41,7 +41,7 @@ var getBudgets = (PAT) => {
         }
       });
       xhr.open("GET", "https://api.youneedabudget.com/v1/budgets");
-      xhr.setRequestHeader("Authorization", "Bearer a7210a4dd1e40b3c52e1e11b8f877c6bb9afe0520a7f42c82f174b0b7d475bba");
+      xhr.setRequestHeader("Authorization", "Bearer " + PAT);
       xhr.send(null);
     }, 300);
   });
@@ -55,7 +55,7 @@ var getCategories = function(PAT, budget_id) {
       var xhr = new XMLHttpRequest();
       xhr.withCredentials = true;
 
-      xhr.addEventListener('readystatechange', () => {
+      xhr.addEventListener("readystatechange", function() {
         if (this.readyState === 4) {
           resolve(this.responseText);
         }
