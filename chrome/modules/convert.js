@@ -13,7 +13,7 @@ function fillTable(ynabTable, transactions) {
     <tr id=${'ynabTrans' + arrItem.id}>
       <td style="padding:10px"; style="margin:0px">
         <div class="ui input">
-          <input style="width:100px"; type="text" value="${date}" placeholder="date" id="category">
+          <input style="width:100px"; type="text" value="${date}" placeholder="date" id="date">
         </div>
       </td>
       <td>
@@ -22,8 +22,14 @@ function fillTable(ynabTable, transactions) {
         </div>
       </td>
       <td style="padding:10px"; style="margin:0px">
-        <div class="ui input">
-          <input type="text" placeholder="category" id="category">
+        <div class="ui selection dropdown">
+          <input type="hidden" name="categories">
+          <i class="dropdown icon"></i>
+          <div class="default text">categories</div>
+          <div class="menu">
+            <div class="item" data-value="1">Male</div>
+            <div class="item" data-value="0">Female</div>
+          </div>
         </div>
       </td>
       <td style="padding:10px"; style="margin:0px">
@@ -87,7 +93,7 @@ function insertTable() {
           <th colspan="6">
             <div class="ui compact menu">
               <div class="ui simple dropdown item">
-                Please select your budget
+                Please select your account
                 <i class="dropdown icon"></i>
                 <div class="menu">
                 </div>

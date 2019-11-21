@@ -64,7 +64,6 @@ $(document).ready(() => {
       $('#budgetsSelect').append( $('<option>', {value: value}).text(key));
     })
 
-    // Need to set the values for categories
   })
 
   // Checks validity of token entered and stores budgets
@@ -75,7 +74,6 @@ $(document).ready(() => {
       subject: "validate PAT",
       token: tokenVal
     });
-
   });
 
   // Check the switch state in chrome.storage
