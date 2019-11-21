@@ -20,12 +20,13 @@ function main() {
   
   console.log(transactionsTable.length);
   for (var i = 2, len = transactionsTable.length - 1; i < len; i++) {
+    content = transactionsTable[i].textContent.trim().split('\n')[0];
     
-    if (isPosted) {
+    if ((content !== "Posted Transactions") && 
+        (content !== "Pending Transactions") && 
+        (content !== "") &&
+        (content !== "There are no posted transactions for the selected period.")) {
       transactions.push(treadRowData(i-3, transactionsTable[i]));
-    } else if (transactionsTable[i].textContent.trim().split('\n')[0] == "Posted Transactions") {
-      isPosted = true;
-      i++;
     }
   }
 

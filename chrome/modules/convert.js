@@ -1,8 +1,6 @@
 /**
  * Contains all the functions necessary to build a ynabTable
  */
-
-
 function fillTable(ynabTable, transactions) {
 
   var ynabBody = ynabTable.find('tbody').first();
@@ -67,6 +65,7 @@ function fillTable(ynabTable, transactions) {
     }
 
   });
+
 }
 
 function formatDate(date) {
