@@ -86,7 +86,7 @@ function formatDate(date) {
 function insertTable() {
 
   $("#transactionsTable").replaceWith(`
-    <table id="ynabTable" class="ui blue table">
+    <table id="ynabTable" class="ui inverted teal table">
       <thread>
         <tr>
           <th colspan="6">
@@ -121,9 +121,6 @@ function insertTable() {
               <th colspan="6">
               <div class="ui small blue button">
                 Approve
-              </div>
-              <div class="ui small blue disabled button">
-                Approve All
               </div>
             </th>
           </tr>
