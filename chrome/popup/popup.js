@@ -6,6 +6,7 @@ $(document).ready(() => {
 
   // Using Long Lived Connections to commnicata from
   // background.js to popup.js
+
   var port = chrome.extension.connect({
     name: "Sample Communication"
   });
@@ -21,10 +22,6 @@ $(document).ready(() => {
         subject: "get budgets",
         token: msg.token 
       });
-    }
-
-    if (msg.subject == "get selected Budget") {
-      console.log('TODO')
     }
 
     if (msg.subject == "got budgets") {
@@ -76,6 +73,17 @@ $(document).ready(() => {
     });
   });
 
+  // Get Accounts
+  budgetBtn.click(() => {
+    budget_id = $("#budgetsSelect").val();
+
+    port.postMessage({
+      subject: "set budget_id",
+      id: budget_id
+    })
+  })
+
+
   // Check the switch state in chrome.storage
   chrome.storage.local.get(['TD'], (result) => {
 
@@ -106,6 +114,10 @@ $(document).ready(() => {
       console.log(result.Simplii);
     });
   });
+
+  $('#budgetsSelect').change(() => {
+    console.log($(this).val());
+  })
 });
 
 executeScript = () => { 

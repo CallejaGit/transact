@@ -13,6 +13,7 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.extension.onConnect.addListener(function(port){
   port.onMessage.addListener(function(msg) {
 
+    // API call to get validate the personal Tokken
     if (msg.subject == "validate PAT"){
       validatePAT(msg.token).then((response) => {
         port.postMessage({
@@ -23,6 +24,7 @@ chrome.extension.onConnect.addListener(function(port){
       })
     }
 
+    // API call to get budget of user
     if (msg.subject == "get budgets") {
       getBudgets(msg.token).then((response) => {
         console.log(response)
@@ -30,6 +32,14 @@ chrome.extension.onConnect.addListener(function(port){
           subject: "got budgets",
           json: response
         })
+      });
+    }
+
+    // Set the budget in local storage
+    if (msg.subject == "set budget_id") {
+
+      chrome.storage.local.set({current_budget: msg.id}, () => {
+        console.log("set msg.id as " + msg.id);
       });
     }
   })
