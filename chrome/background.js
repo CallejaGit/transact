@@ -41,6 +41,14 @@ chrome.extension.onConnect.addListener(function(port){
       chrome.storage.local.set({current_budget: msg.id}, () => {
         console.log("set msg.id as " + msg.id);
       });
+
+      // Need to update table if displayed on page
+      
+      // Need to update categories
+      console.log(msg.token, msg.id);
+      getCategories(msg.token, msg.id).then((response) => {
+        console.log(response.text);
+      })
     }
   })
 })

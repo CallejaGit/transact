@@ -8,7 +8,6 @@ var validatePAT = (PAT) => {
     setTimeout(() => {
 
       var xhr = new XMLHttpRequest();
-      xhr.withCredentials = true;
 
       xhr.addEventListener("readystatechange", function() {
         if (this.readyState === 4) {
@@ -31,7 +30,6 @@ var getBudgets = (PAT) => {
     setTimeout(() => {
 
       var xhr = new XMLHttpRequest();
-      xhr.withCredentials = true;
 
       xhr.addEventListener("readystatechange", function() {
         console.log(this.readyState);
@@ -53,7 +51,6 @@ var getCategories = function(PAT, budget_id) {
     setTimeout(function(){
 
       var xhr = new XMLHttpRequest();
-      xhr.withCredentials = true;
 
       xhr.addEventListener("readystatechange", function() {
         if (this.readyState === 4) {
@@ -62,7 +59,7 @@ var getCategories = function(PAT, budget_id) {
       });
       uri = "https://api.youneedabudget.com/v1/budgets/" + budget_id + "/categories";
       xhr.open("GET", uri);
-      xhr.setRequestHeader('Authorization', 'Bearer');
+      xhr.setRequestHeader('Authorization', 'Bearer ' + PAT);
       xhr.send(null);
     }, 300);
   });
@@ -75,7 +72,6 @@ var getPayees = function(PAT, category_id) {
     setTimeout(function(){
 
       var xhr = new XMLHttpRequest();
-      xhr.withCredentials = true;
 
       xhr.addEventListener('readystatechange', () => {
         if (this.readyState === 4) {

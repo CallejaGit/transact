@@ -76,9 +76,11 @@ $(document).ready(() => {
   // Get Accounts
   budgetBtn.click(() => {
     budget_id = $("#budgetsSelect").val();
+    tokenVal = $("#tokenInput").val()
 
     port.postMessage({
       subject: "set budget_id",
+      token: tokenVal,
       id: budget_id
     })
   })
