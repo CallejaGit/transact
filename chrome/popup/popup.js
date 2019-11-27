@@ -39,6 +39,9 @@ $(document).ready(() => {
       chrome.storage.local.set({budgets: nameIDpairs});
     }
 
+    if (msg.subject == "got categories") {
+      setCategories(msg.response);
+    }
   });
 
   // Set the values obtained from the local storage
@@ -60,7 +63,6 @@ $(document).ready(() => {
       console.log('setting')
       $('#budgetsSelect').append( $('<option>', {value: value}).text(key));
     })
-
   })
 
   // Checks validity of token entered and stores budgets
@@ -121,6 +123,10 @@ $(document).ready(() => {
     console.log($(this).val());
   })
 });
+
+setCategories(categories) => {
+  console.log('setting categories')
+}
 
 executeScript = () => { 
   chrome.tabs.executeScript({

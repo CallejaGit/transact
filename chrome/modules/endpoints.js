@@ -46,6 +46,7 @@ var getBudgets = (PAT) => {
 } 
 
 var getCategories = function(PAT, budget_id) {
+  console.log("getCategories called");
   return new Promise((resolve, reject) => {
     
     setTimeout(function(){
@@ -54,6 +55,8 @@ var getCategories = function(PAT, budget_id) {
 
       xhr.addEventListener("readystatechange", function() {
         if (this.readyState === 4) {
+          console.log("WORKS");
+          console.log(this.responseText)
           resolve(this.responseText);
         }
       });

@@ -27,7 +27,6 @@ chrome.extension.onConnect.addListener(function(port){
     // API call to get budget of user
     if (msg.subject == "get budgets") {
       getBudgets(msg.token).then((response) => {
-        console.log(response)
         port.postMessage({
           subject: "got budgets",
           json: response
@@ -47,8 +46,11 @@ chrome.extension.onConnect.addListener(function(port){
       // Need to update categories
       console.log(msg.token, msg.id);
       getCategories(msg.token, msg.id).then((response) => {
-        console.log(response.text);
-      })
+        port.postMessage({
+          subject: "got categories",
+          json: response
+        });
+      });
     }
   })
 })
