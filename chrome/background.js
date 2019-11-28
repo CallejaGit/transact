@@ -46,9 +46,11 @@ chrome.extension.onConnect.addListener(function(port){
       // Need to update categories
       console.log(msg.token, msg.id);
       getCategories(msg.token, msg.id).then((response) => {
+        var data = JSON.parse(response)["data"]["category_groups"];
+        console.log(data)
         port.postMessage({
           subject: "got categories",
-          json: response
+          json: data
         });
       });
     }

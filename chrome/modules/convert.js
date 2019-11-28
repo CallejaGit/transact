@@ -20,15 +20,11 @@ function fillTable(ynabTable, transactions) {
         </div>
       </td>
       <td style="padding:10px"; style="margin:0px">
-        <div class="ui selection dropdown">
-          <input type="hidden" name="categories">
-          <i class="dropdown icon"></i>
-          <div class="default text">categories</div>
-          <div class="menu">
-            <div class="item" data-value="1">Male</div>
-            <div class="item" data-value="0">Female</div>
-          </div>
-        </div>
+        <select class="ui dropdown" id="categoriesDropdown">
+          <option value="">Select your category</option>
+          <option value="1">Male</option>
+          <option value="0">Female</option>
+        </select>
       </td>
       <td style="padding:10px"; style="margin:0px">
         <div class="ui input">

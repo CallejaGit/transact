@@ -10,6 +10,18 @@ storeTable = (title, table) => {
 }
 
 */
+var port = chrome.extension.connect({
+  name: "Sample Communication"
+});
+
+port.onMessage.addListener(function(msg) {
+
+  console.log(msg)
+  if (msg.subject == "got categories") {
+    console.log(msg.json);
+  }
+});
+
 function main() {
 
   var transactionsTable  = document.getElementById('transactionsTable').getElementsByTagName('tr');
