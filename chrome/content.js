@@ -16,6 +16,10 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     json = message.body
     var data = JSON.parse(json)["data"]["category_groups"];
     console.log(data)
+
+    chrome.storage.local.set({categories: data}, () => {
+      console.log("setting categories as: \n" + data)
+    })
   }
 });
 
@@ -52,5 +56,6 @@ chrome.storage.local.get(['TD'], (result) => {
     main();
   }
 })
+
 
 
