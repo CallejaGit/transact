@@ -44,15 +44,14 @@ chrome.extension.onConnect.addListener(function(port){
       // Need to update table if displayed on page
       
       // Need to update categories
-      console.log(msg.token, msg.id);
       getCategories(msg.token, msg.id).then((response) => {
-        var data = JSON.parse(response)["data"]["category_groups"];
-        console.log(data)
-        port.postMessage({
-          subject: "got categories",
-          json: data
+
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+          chrome.tabs.sendMessage(tabs[0].id, {subject: "got categories", body: response});
         });
+
       });
     }
   })
 })
+

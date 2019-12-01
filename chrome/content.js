@@ -10,17 +10,15 @@ storeTable = (title, table) => {
 }
 
 */
-var port = chrome.extension.connect({
-  name: "Sample Communication"
-});
 
-port.onMessage.addListener(function(msg) {
-
-  console.log(msg)
-  if (msg.subject == "got categories") {
-    console.log(msg.json);
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+  if (message.subject == "got categories") {
+    json = message.body
+    var data = JSON.parse(json)["data"]["category_groups"];
+    console.log(data)
   }
 });
+
 
 function main() {
 
