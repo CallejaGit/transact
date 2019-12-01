@@ -46,13 +46,8 @@ chrome.extension.onConnect.addListener(function(port){
       // Need to update categories in the storage
       getCategories(msg.token, msg.id).then((response) => {
 
-        json = response
-        var data = JSON.parse(json)["data"]["category_groups"];
-        console.log(data)
 
-        chrome.storage.local.set({categories: data}, () => {
-          console.log("setting categories as: \n" + data)
-        })
+        chrome.storage.local.set({categories: response})
 
       });
     }

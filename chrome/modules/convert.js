@@ -20,10 +20,8 @@ function fillTable(ynabTable, transactions) {
         </div>
       </td>
       <td style="padding:10px"; style="margin:0px">
-        <select class="ui dropdown" id="categoriesDropdown">
+        <select class="ui dropdown categoriesDropdown">
           <option value="">Select your category</option>
-          <option value="1">Male</option>
-          <option value="0">Female</option>
         </select>
       </td>
       <td style="padding:10px"; style="margin:0px">
@@ -128,24 +126,21 @@ function insertTable() {
 }
 
 function categoriesDropdown(){
-  console.log("inside setCategoriesOption")
 
   chrome.storage.local.get(['categories'], function(data) {
-    if (typeof data.links === 'undefined') {
+    if (typeof data === 'undefined') {
       console.log('setCategoriesOption: local storaged returned undefined')
-      break;
+      return;
     } else {
-      console.log('here')
-      data.forEach(function(e, i){
-        console.log(e.id, e.name)
-      })
-/**
 
-      $('#categoriesDropdown').append(`
-        <option value=d
-        `)
-        */
-    }
+      var data = JSON.parse(data.categories)["data"]["category_groups"];
+
+      data.forEach((e,i) => {
+
+        $('.categoriesDropdown').append(`
+          <option value=\'${e.id}\'>${e.name}</options>
+          `)
+      })
   });
 }
 
