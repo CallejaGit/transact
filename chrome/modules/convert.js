@@ -127,6 +127,28 @@ function insertTable() {
   return $("#ynabTable");
 }
 
+function categoriesDropdown(){
+  console.log("inside setCategoriesOption")
+
+  chrome.storage.local.get(['categories'], function(data) {
+    if (typeof data.links === 'undefined') {
+      console.log('setCategoriesOption: local storaged returned undefined')
+      break;
+    } else {
+      console.log('here')
+      data.forEach(function(e, i){
+        console.log(e.id, e.name)
+      })
+/**
+
+      $('#categoriesDropdown').append(`
+        <option value=d
+        `)
+        */
+    }
+  });
+}
+
 /**
  * Contains the functions specifically for TD easy web
  */

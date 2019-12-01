@@ -11,17 +11,6 @@ storeTable = (title, table) => {
 
 */
 
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-  if (message.subject == "got categories") {
-    json = message.body
-    var data = JSON.parse(json)["data"]["category_groups"];
-    console.log(data)
-
-    chrome.storage.local.set({categories: data}, () => {
-      console.log("setting categories as: \n" + data)
-    })
-  }
-});
 
 
 function main() {
@@ -44,9 +33,14 @@ function main() {
     }
   }
 
+
+  chrome.storage.local.get(['categories'], (result) => {
+    console.log(result)
+  })
   initSemanticUI();
   var ynabTable = insertTable();
   fillTable(ynabTable, transactions);
+  categoriesDropdown();
 }
 
 

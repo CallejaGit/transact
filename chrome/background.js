@@ -43,12 +43,16 @@ chrome.extension.onConnect.addListener(function(port){
 
       // Need to update table if displayed on page
       
-      // Need to update categories
+      // Need to update categories in the storage
       getCategories(msg.token, msg.id).then((response) => {
 
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-          chrome.tabs.sendMessage(tabs[0].id, {subject: "got categories", body: response});
-        });
+        json = response
+        var data = JSON.parse(json)["data"]["category_groups"];
+        console.log(data)
+
+        chrome.storage.local.set({categories: data}, () => {
+          console.log("setting categories as: \n" + data)
+        })
 
       });
     }
