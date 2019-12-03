@@ -128,7 +128,7 @@ function accountDropdown(){
       return;
     } else {
 
-      var data = JSON.parse(data.categories)["data"]["accounts"];
+      var data = JSON.parse(data.account)["data"]["accounts"];
 
       data.forEach((e,i) => {
         $('#accountDropdown').append(`
