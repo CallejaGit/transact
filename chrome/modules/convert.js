@@ -84,14 +84,9 @@ function insertTable() {
       <thread>
         <tr>
           <th colspan="6">
-            <div class="ui compact menu">
-              <div class="ui simple dropdown item">
-                Please select your account
-                <i class="dropdown icon"></i>
-                <div class="menu">
-                </div>
-              </div>
-            </div>
+            <select class="ui dropdown" id="accountDropdown">
+              <option value="">select your account</option>
+            </select>
           </th>
         </tr>
         <tr>
@@ -125,6 +120,24 @@ function insertTable() {
   return $("#ynabTable");
 }
 
+function accountDropdown(){
+
+  chrome.storage.local.get(['accounts'], function(data) {
+    if (typeof data === 'undefined') {
+      console.log('accountDropdown: local storaged returned undefined')
+      return;
+    } else {
+
+      var data = JSON.parse(data.categories)["data"]["accounts"];
+
+      data.forEach((e,i) => {
+        $('#accountDropdown').append(`
+          <option value=\'${e.id}\'>${e.name}</options>
+          `)
+      })
+    }
+  });
+}
 function categoriesDropdown(){
 
   chrome.storage.local.get(['categories'], function(data) {
