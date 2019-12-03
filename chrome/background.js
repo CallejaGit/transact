@@ -42,6 +42,11 @@ chrome.extension.onConnect.addListener(function(port){
       });
 
       // Need to update table if displayed on page
+      getAccounts(msg.token, msg.id).then((response) => {
+
+        chrome.storage.local.set({accounts: response})
+
+      })
       
       // Need to update categories in the storage
       getCategories(msg.token, msg.id).then((response) => {

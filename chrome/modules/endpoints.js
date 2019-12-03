@@ -45,6 +45,29 @@ var getBudgets = (PAT) => {
   });
 } 
 
+var getAccounts = function(PAT, budget_id) {
+  console.log("getAccounts called");
+  return new Promise((resolve, reject) => {
+    
+    setTimeout(function(){
+
+      var xhr = new XMLHttpRequest();
+
+      xhr.addEventListener("readystatechange", function() {
+        if (this.readyState === 4) {
+          console.log(this.responseText)
+          resolve(this.responseText);
+        }
+      });
+      uri = "https://api.youneedabudget.com/v1/budgets/" + budget_id + "/accounts";
+      xhr.open("GET", uri);
+      xhr.setRequestHeader('Authorization', 'Bearer ' + PAT);
+      xhr.send(null);
+    }, 300);
+  });
+}
+
+
 var getCategories = function(PAT, budget_id) {
   console.log("getCategories called");
   return new Promise((resolve, reject) => {
