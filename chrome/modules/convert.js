@@ -136,11 +136,11 @@ function categoriesDropdown(){
       var data = JSON.parse(data.categories)["data"]["category_groups"];
 
       data.forEach((e,i) => {
-
         $('.categoriesDropdown').append(`
           <option value=\'${e.id}\'>${e.name}</options>
           `)
       })
+    }
   });
 }
 
