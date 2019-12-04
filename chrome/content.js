@@ -41,6 +41,7 @@ function main() {
   var ynabTable = insertTable();
   fillTable(ynabTable, transactions);
   categoriesDropdown();
+  accountDropdown();
 }
 
 

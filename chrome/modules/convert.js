@@ -121,6 +121,7 @@ function insertTable() {
 }
 
 function accountDropdown(){
+  console.log('in accountDropdown')
 
   chrome.storage.local.get(['accounts'], function(data) {
     if (typeof data === 'undefined') {
@@ -128,7 +129,8 @@ function accountDropdown(){
       return;
     } else {
 
-      var data = JSON.parse(data.account)["data"]["accounts"];
+      var data = JSON.parse(data.accounts)["data"]["accounts"];
+      console.log('accounDropdown: \n' + data)
 
       data.forEach((e,i) => {
         $('#accountDropdown').append(`
