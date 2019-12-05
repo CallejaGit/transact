@@ -1,17 +1,3 @@
-// TODO: try to insert this table back with switch is off
-/**
-storeTable = (title, table) => {
-  if (title === 'EasyWeb') {
-    var transTable = $('#transactionsTable')
-
-    chrome.storage.local.set({TDtable: transTable}, (result) => {
-    })
-  }
-}
-
-*/
-
-
 
 function main() {
 
@@ -43,12 +29,37 @@ function main() {
   categoriesDropdown();
   accountDropdown();
   initApproval();
+  sendReq();
 }
 
+/**
+ * Validates proper requirements to send a POST request
+ */
+function sendReq() {
+  $('.categoriesDropdown').change(() => {
+    properSelected = $(event.target).find('option:selected').text() != "Select your category"
 
+    tr = $(event.target).parent().closest('tr').find('input')
+
+    var date = tr[0].value;
+    var payee_name = tr[1].value;
+    var memo = tr[2].value;
+    var outflow = tr[3].value;
+    var inflow = tr[4].value;
+    
+    if ((date != "") && (payee_name != "") && (outflow != "" || inflow != "") && properSelected ) {
+      $(tr[5]).attr('disabled', false)
+    } else {
+      $(tr[5]).click()
+      $(tr[5]).attr('disabled', true)
+    }
+  })
+}
+
+/**
+ * Gathers the inputs from user and sends it to YNAB
+ */
 function initApproval() {
-  
-  
   $("input[type='checkbox']").click(() => {
     tr = $(event.target).parent().closest('tr').find('input');
 
@@ -61,8 +72,8 @@ function initApproval() {
     var inflow = tr[4].value;
 
     tr = $(event.target).parent().closest('tr').find('select');
-    
     console.log(tr[0].value);
+
   })
 }
 
