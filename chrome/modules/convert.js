@@ -108,7 +108,7 @@ function insertTable() {
           <th></th>
           <th></th>
               <th colspan="6">
-              <div class="ui small blue button">
+              <div class="ui small blue button" id="approve">
                 Approve
               </div>
             </th>

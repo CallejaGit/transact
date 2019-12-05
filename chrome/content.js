@@ -42,6 +42,28 @@ function main() {
   fillTable(ynabTable, transactions);
   categoriesDropdown();
   accountDropdown();
+  initApproval();
+}
+
+
+function initApproval() {
+  
+  
+  $("input[type='checkbox']").click(() => {
+    tr = $(event.target).parent().closest('tr').find('input');
+
+    console.log(tr)
+    
+    var date = tr[0].value;
+    var payee_name = tr[1].value;
+    var memo = tr[2].value;
+    var outflow = tr[3].value;
+    var inflow = tr[4].value;
+
+    tr = $(event.target).parent().closest('tr').find('select');
+    
+    console.log(tr[0].value);
+  })
 }
 
 
