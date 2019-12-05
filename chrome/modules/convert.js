@@ -42,8 +42,8 @@ function fillTable(ynabTable, transactions) {
         </div>
       </td>
       <td style="padding: 0px"; style="margin:0px" class="collapsing">
-        <div class="ui fitted toggle checkbox">
-          <input type="checkbox"> <label></label>
+        <div class="ui fitted toggle checkbox" style="color: black">
+          <input type="checkbox" disabled="disabled">Send<label></label>
         </div>
       </td>
     </tr>
@@ -107,13 +107,8 @@ function insertTable() {
           <th></th>
           <th></th>
           <th></th>
-              <th colspan="6">
-              <div class="ui small blue button" id="approve">
-                Approve
-              </div>
-            </th>
-          </tr>
-        </tfoot>
+        </tr>
+      </tfoot>
     </table>
   
   `);
