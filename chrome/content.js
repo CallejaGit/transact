@@ -36,24 +36,35 @@ function main() {
  * Validates proper requirements to send a POST request
  */
 function sendReq() {
-  $('.categoriesDropdown').change(() => {
-    properSelected = $(event.target).find('option:selected').text() != "Select your category"
-
-    tr = $(event.target).parent().closest('tr').find('input')
-
-    var date = tr[0].value;
-    var payee_name = tr[1].value;
-    var memo = tr[2].value;
-    var outflow = tr[3].value;
-    var inflow = tr[4].value;
-    
-    if ((date != "") && (payee_name != "") && (outflow != "" || inflow != "") && properSelected ) {
-      $(tr[5]).attr('disabled', false)
-    } else {
-      $(tr[5]).click()
-      $(tr[5]).attr('disabled', true)
-    }
+  $('#accountDropdown').change(() => {
+    validParams()
   })
+  $('.categoriesDropdown').change(() => {
+    validParams()
+  })
+}
+
+function validParams() {
+  console.log('inside validParams')
+
+  properSelected = $('.categoriesDropdown').find('option:selected').text() != "Select your category"
+
+  tr = $('.categoriesDropdown').parent().closest('tr').find('input')
+
+  var date = tr[0].value;
+  var payee_name = tr[1].value;
+  var memo = tr[2].value;
+  var outflow = tr[3].value;
+  var inflow = tr[4].value;
+
+  var account_id = $('#accountDropdown').val();
+  
+  if ((account_id != "") && (date != "") && (payee_name != "") && (outflow != "" || inflow != "") && properSelected ) {
+    $(tr[5]).attr('disabled', false)
+  } else {
+    if ($(tr[5]).prop("checked")) $(tr[5]).click();
+    $(tr[5]).attr('disabled', true)
+  }
 }
 
 /**
@@ -72,7 +83,9 @@ function initApproval() {
     var inflow = tr[4].value;
 
     tr = $(event.target).parent().closest('tr').find('select');
-    console.log(tr[0].value);
+    var category_id = tr[0].value;
+
+    console.log($('#accountDropdown').val());
 
   })
 }
@@ -84,6 +97,4 @@ chrome.storage.local.get(['TD'], (result) => {
     main();
   }
 })
-
-
 
