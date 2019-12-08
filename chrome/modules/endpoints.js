@@ -2,6 +2,15 @@
  * These functions help working with the api.youneedabudget.com endpoints
  */
 
+var sendTransactions = (PAT, json) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      
+
+
+    })
+  })
+}
 
 var validatePAT = (PAT) => {
   return new Promise((resolve, reject) => {

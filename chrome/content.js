@@ -84,10 +84,44 @@ function initApproval() {
 
     tr = $(event.target).parent().closest('tr').find('select');
     var category_id = tr[0].value;
+    var flow = null; 
 
-    console.log($('#accountDropdown').val());
+    if (outflow != "") {
+      console.log("inflow is empty")
+      flow = convertFlow(outflow, "outflow")
+    } else if (inflow != "") {
+      console.log("outflow is empty")
+      flow = convertFlow(inflow, "inflow")
+    }
 
+    var obj = `{
+      "transaction": {
+        "account_id": "",
+        "date": "${date}",
+        "amount": ${flow} ,
+        "payee_id": null,
+        "payee_name": "${payee_name}",
+        "category_id": "${category_id}",
+        "memo": "${memo}",
+        "cleared": "cleared",
+        "approved": true,
+        "flag_color": null,
+        "import_id": null
+      }
+    }`
+
+    console.log(obj)
   })
+}
+
+function convertFlow(flow, type) {
+  console.log("This is recieved " + flow);
+  newFlow = flow.split(".")[0] + flow.split(".")[1] + "0";
+  if (type == "outflow") {
+    newFlow = "-" + newFlow;
+  }
+  console.log(newFlow)
+  return newFlow
 }
 
 

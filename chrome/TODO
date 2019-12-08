@@ -1,3 +1,4 @@
 TODO:
 
-+ find a way to communicate from background.js to content script
++ BUG: when ensuring parameters required to send; only activates first line
++ get account info for json
